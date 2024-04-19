@@ -1,4 +1,4 @@
-# Sistemas Distribuidos 2024
+# Sistemas Distribuidos y Paralelos 2024
 
 ## Ejecución
 
