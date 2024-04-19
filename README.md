@@ -88,7 +88,7 @@
 
 #### Práctico para analizar el código del programa para desenfocar una imagen en paralelo con OpenMp.
 
-#### [Desenfocar imagen en paralelo](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Unidad%204/Parte%201/Ejercicio%207/ejercicio7.c)
+#### [Desenfocar imagen en paralelo](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/tree/main/Unidad%204/Parte%202)
 
 #### Link del pdf resuelto:
 
