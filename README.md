@@ -30,9 +30,9 @@
   ./nombre_archivo
 ```
 
-## Unidad 3
+# Unidad 3
 
-### Parte 1: Software Paralelo
+## Parte 1: Software Paralelo
 
 #### Práctico introductorio de ejecución paralela en lenguaje C utilizando la librería openmp.
 
@@ -48,7 +48,7 @@
 
 [![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/1At2Q5LabLE-xrAP-ujTwawipJ_woD0ub/view?usp=sharing)
 
-### Parte 3: Métricas de eficiencia - Aplicación
+## Parte 3: Métricas de eficiencia - Aplicación
 
 #### Práctico para analizar el rendimiento de la ejecución en paralelo de la multiplicación de matrices.
 
@@ -60,9 +60,9 @@
 
 [![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/1LYEhnmU3-dzI5qxhPLBQD61AayaIDiQW/view?usp=sharing)
 
-## Unidad 4
+# Unidad 4
 
-### Parte 1: Introducción a OpenMp
+## Parte 1: Introducción a OpenMp
 
 #### Ejercicios introductorios realizados en paralelo con OpenMp.
 
@@ -84,7 +84,7 @@
 
 [![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/15eQUjvUwHxCePDV8lPwOu_1HLPl8XnWN/view?usp=sharing)
 
-### Parte 2: Cálculo de Métricas con OpenMp
+## Parte 2: Cálculo de Métricas con OpenMp
 
 #### Práctico para analizar el código del programa para desenfocar una imagen en paralelo con OpenMp.
 
