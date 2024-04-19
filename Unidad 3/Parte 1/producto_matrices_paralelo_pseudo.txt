@@ -1,0 +1,23 @@
+Cada tarea recibe una fila de matriz1 y una columna de matriz2
+
+void crearTarea (matriz1, matriz2, resultante):
+Comienzo
+    entero k
+    Para k desde 0 hasta (longitud(matriz1)):
+        resultante += matriz1[k] * matriz2[k]
+    FinPara
+    Retorna ()
+Fin
+
+Inifio Programa Principal
+arreglo matriz1 = [[1,2], [3,4]]
+arreglo matriz2 = [[5,6], [7,8]]
+arreglo resultante = [[0,0], [0,0]]
+entero i,j
+Para i desde 0 hasta (longitud(matriz1)):
+    Para j desde 0 hasta (longitud(matriz1)):
+        crearTarea(matriz1[i][], matriz2[][j], resultante[i][j]) y asigno la tarea creada a un procesador disponible.
+    FinPara
+FinPara
+Mostrar Matriz Resultante
+Fin Programa Principal
