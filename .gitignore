@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/c,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=c,python
+# Created by https://www.toptal.com/developers/gitignore/api/c++,c,python
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,c,python
 
 ### C ###
 # Prerequisites
@@ -54,6 +54,25 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+### C++ ###
+# Prerequisites
+
+# Compiled Object files
+*.slo
+
+# Precompiled Headers
+
+# Compiled Dynamic libraries
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+
+# Executables
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -226,4 +245,4 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/c,python
+# End of https://www.toptal.com/developers/gitignore/api/c++,c,python
