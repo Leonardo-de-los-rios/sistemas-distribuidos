@@ -246,3 +246,7 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,c,python
+
+# Claves para AWS
+*.ppk
+*.pem
