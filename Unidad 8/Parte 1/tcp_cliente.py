@@ -1,5 +1,6 @@
 import socket
 
+
 def proceso_cliente():
     serverName = 'localhost'
     serverPort = 12000

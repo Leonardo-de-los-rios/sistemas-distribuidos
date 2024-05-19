@@ -1,6 +1,7 @@
-from multiprocessing import Process, Queue, Event
 import os
 import time
+from multiprocessing import Event, Process, Queue
+
 
 def sender(queue, event_send, event_recv):
     messages = ["Mensaje 1", "Mensaje 2"]
