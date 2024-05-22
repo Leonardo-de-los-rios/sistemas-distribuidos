@@ -42,9 +42,9 @@ int main(int argc, char **argv)
 		printf("]\n");
 	}
 
-	// 2: El proceso raíz envía una porcion del arreglo a cada proceso
+	// 2: El proceso raíz envía una porción del arreglo a cada proceso
 	MPI_Scatter(array, PORTION_SIZE, MPI_INT, recv_portion, PORTION_SIZE, MPI_INT, ROOT, MPI_COMM_WORLD);
-	printf("\nPaso 2: Id Proceso %d recibe una porcion del arreglo: ", rank);
+	printf("\nPaso 2: Id Proceso %d recibe una porción del arreglo: ", rank);
 	printf("[");
 	for (int i = 0; i < PORTION_SIZE; i++)
 	{
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	}
 	printf("]\n");
 
-	// 3: Cada proceso envi�a una porcion del arreglo al proceso raíz
+	// 3: Cada proceso envía una porción del arreglo al proceso raíz
 	MPI_Gather(recv_portion, PORTION_SIZE, MPI_INT, gathered_array, PORTION_SIZE, MPI_INT, ROOT, MPI_COMM_WORLD);
 
 	if (rank == ROOT)
