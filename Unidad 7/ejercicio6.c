@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-	// 1: El proceso raiz envi�a un valor a todos los procesos
+	// 1: El proceso raíz envía un valor a todos los procesos
 	if (rank == ROOT)
 	{
 		value = 777; // Valor a enviar
@@ -26,14 +26,14 @@ int main(int argc, char **argv)
 	MPI_Bcast(&value, 1, MPI_INT, ROOT, MPI_COMM_WORLD);
 	printf("\nPaso 1: Id Proceso %d recibe el valor %d\n", rank, value);
 
-	// Para Paso 2 y 3: Inicializar el arreglo en el proceso raiz
+	// Para Paso 2 y 3: Inicializar el arreglo en el proceso raíz
 	if (rank == ROOT)
 	{
 		for (int i = 0; i < ARRAY_SIZE; i++)
 		{
 			array[i] = rand() % 9; // llenar el arreglo con numeros aleatorios entre 0 y 9
 		}
-		printf("\nSe muestra el arreglo generado por Raiz: ");
+		printf("\nSe muestra el arreglo generado por Raíz: ");
 		printf("[");
 		for (int i = 0; i < ARRAY_SIZE; i++)
 		{
@@ -42,24 +42,24 @@ int main(int argc, char **argv)
 		printf("]\n");
 	}
 
-	// 2: El proceso raiz envi�a una porcion del arreglo a cada proceso
+	// 2: El proceso raíz envía una porcion del arreglo a cada proceso
 	MPI_Scatter(array, PORTION_SIZE, MPI_INT, recv_portion, PORTION_SIZE, MPI_INT, ROOT, MPI_COMM_WORLD);
 	printf("\nPaso 2: Id Proceso %d recibe una porcion del arreglo: ", rank);
 	printf("[");
 	for (int i = 0; i < PORTION_SIZE; i++)
 	{
 		printf(" %d", recv_portion[i]);
-		// cada proceso incrementa en uno cada elemento de la porcion recibida
+		// cada proceso incrementa en uno cada elemento de la porción recibida
 		recv_portion[i] += 1;
 	}
 	printf("]\n");
 
-	// 3: Cada proceso envi�a una porcion del arreglo al proceso raiz
+	// 3: Cada proceso envi�a una porcion del arreglo al proceso raíz
 	MPI_Gather(recv_portion, PORTION_SIZE, MPI_INT, gathered_array, PORTION_SIZE, MPI_INT, ROOT, MPI_COMM_WORLD);
 
 	if (rank == ROOT)
 	{
-		printf("\nPaso 3: Proceso raiz reune el arreglo:\n");
+		printf("\nPaso 3: Proceso raíz reune el arreglo:\n");
 		printf("[");
 		for (int i = 0; i < ARRAY_SIZE; i++)
 		{
