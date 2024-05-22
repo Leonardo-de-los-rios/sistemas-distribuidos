@@ -11,19 +11,21 @@ int main(int argc, char **argv)
 	{
 		if (rank == 0)
 		{
-			printf("\nIngrese un valor entero(negativo para salir): ");
 			scanf("%d", &value);
 			MPI_Send(&value, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+			printf("Proceso %d envió %d al proceso %d\n", rank, value, rank + 1);
 		}
 		else
 		{
 			MPI_Recv(&value, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+			printf("Proceso %d recibió %d del proceso %d\n", rank, value, rank - 1);
+
 			if (rank < size - 1)
+			{
 				MPI_Send(&value, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+				printf("Proceso %d envió %d al proceso %d\n", rank, value, rank + 1);
+			}
 		}
-
-		printf("Proceso %d obtuvo %d\n", rank, value);
-
 	} while (value >= 0);
 
 	MPI_Finalize();
