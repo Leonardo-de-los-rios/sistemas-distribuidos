@@ -20,13 +20,6 @@ def correr_cliente():
 
     numero = input("Introduce un número: ")
 
-    try:
-        numero = int(numero)
-    except ValueError:
-        numero = float(numero)
-    except:
-        print("No ingresaste un número.")
-
     with ThreadPoolExecutor() as executor:
         future = executor.submit(call_remote_method, server_ip, puerto, numero)
 

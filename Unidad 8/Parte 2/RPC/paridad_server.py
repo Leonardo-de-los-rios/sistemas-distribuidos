@@ -7,6 +7,11 @@ import Pyro5.api
 @Pyro5.api.expose
 class Paridad(object):
     def es_par(self, numero):
+        try:
+            numero = int(numero)
+        except ValueError:
+            pass
+
         while type(numero) != int:
             print(
                 "..."
