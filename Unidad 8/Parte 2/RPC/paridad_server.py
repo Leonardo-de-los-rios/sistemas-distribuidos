@@ -13,9 +13,8 @@ class Paridad(object):
             pass
 
         while type(numero) != int:
-            print(
-                "..."
-            )  # Simulacion de que el servidor entra en un bucle infinito al procesar numero -1
+            # Simulacion de que el servidor entra en un bucle infinito al procesar numero -1
+            print("...")
             time.sleep(6)
             break
         if type(numero) != int:

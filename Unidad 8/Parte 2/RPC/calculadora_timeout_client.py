@@ -14,8 +14,10 @@ def call_remote_method(server_ip, puerto, operacion, op1, op2):
             return calculadora_cliente.resta(op1, op2)
         elif operacion == 3:
             return calculadora_cliente.divide(op1, op2)
-        else:
+        elif operacion == 4:
             return calculadora_cliente.multiplica(op1, op2)
+        else:
+            print("Adios Calculadora...")
     except Exception as e:
         return e
 
@@ -27,15 +29,18 @@ def correr_cliente():
 
     # Se crea un proxy para el objeto remoto registrado como "ejercicio1_rpc" en la IP y puerto especificados.
 
-    operacion = int(
-        input(
-            "Ingrese la operacion a efectuar (1:Suma,2:Resta,3:Division,4:Producto,Cualquier otro numero:Salir)\n"
-        )
-    )
-    while operacion == 1 or operacion == 2 or operacion == 3 or operacion == 4:
-        print(
-            "==================================================================================================="
-        )
+    print("Calculadora Premium\n")
+    print("Operaciones:")
+    print("1: Suma")
+    print("2: Resta")
+    print("3: Division")
+    print("4: Producto")
+    print("0: Salir")
+    # Se envian los numeros y la operacion al servidor
+    operacion = int(input("Ingrese la operacion a efectuar: "))
+
+    while operacion in [1, 2, 3, 4, 0]:
+        print("=" * 100)
         op1 = int(input("Ingrese el operando 1: "))
         op2 = int(input("Ingrese el operando 2: "))
         with ThreadPoolExecutor() as executor:
@@ -50,22 +55,24 @@ def correr_cliente():
                     break
                 else:
                     print(resultado)
-                    print(
-                        "==================================================================================================="
-                    )
+                    print("=" * 100)
+
             except TimeoutError:
                 print(
                     "La llamada al servidor ha superado el tiempo de espera,retransmita el procedimiento."
                 )
                 break
 
-        operacion = int(
-            input(
-                "Ingrese la operacion a efectuar (1:Suma,2:Resta,3:Division,4:Producto,Cualquier otro numero:Salir)\n"
-            )
-        )
+        print("Operaciones:")
+        print("1: Suma")
+        print("2: Resta")
+        print("3: Division")
+        print("4: Producto")
+        print("0: Salir")
+        # Se envian los numeros y la operacion al servidor
+        operacion = int(input("Ingrese la operacion a efectuar: "))
     else:
-        print("Adios Calculadora...")
+        print("No ingresaste una opción correcta.\n")
 
 
 if __name__ == "__main__":
