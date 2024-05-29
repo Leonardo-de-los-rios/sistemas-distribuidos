@@ -7,12 +7,19 @@ int main(void)
 {
     char *A = new char[ROWS * COLS];
 
+    int max = 5;
+
     auto start = std::chrono::high_resolution_clock::now(); // Inicia la medición de tiempo
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
         {
             A[i * COLS + j] = i + j;
+            if (max > 0)
+            {
+                std::cout << "Posición: " << i * COLS + j << "\n";
+                max -= 1;
+            }
         }
     }
     auto end = std::chrono::high_resolution_clock::now(); // Termina la medición de tiempo
