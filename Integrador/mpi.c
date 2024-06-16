@@ -12,7 +12,7 @@ void load(int *array)
     // Llenar el arreglo con números aleatorios del 0 al 999
     for (int i = 0; i < N; i++)
     {
-        array[i] = rand() % 1000;
+        array[i] = rand() % N;
     }
 }
 
