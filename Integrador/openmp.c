@@ -17,55 +17,6 @@ void load(int *array, int iteration)
     }
 }
 
-int set_threads()
-{
-    int num_threads;
-    printf("Ingrese la cantidad de hilos: ");
-    scanf("%d", &num_threads);
-
-    return num_threads;
-}
-
-void max_min(int *array, int num_threads)
-{
-    int base_count = N / num_threads;
-    int extra_count = N % num_threads;
-
-    int global_max = array[0];
-    int global_min = array[0];
-
-#pragma omp parallel
-    {
-        int tid = omp_get_thread_num();
-        int local_max, local_min;
-
-        int start_index = tid * base_count + (tid < extra_count ? tid : extra_count);
-        int end_index = start_index + base_count + (tid < extra_count ? 1 : 0);
-
-        local_max = array[start_index];
-        local_min = array[start_index];
-
-        for (int i = start_index + 1; i < end_index; i++)
-        {
-            if (array[i] > local_max)
-                local_max = array[i];
-            if (array[i] < local_min)
-                local_min = array[i];
-        }
-
-        // Actualizar el máximo y mínimo global en una región crítica
-#pragma omp critical
-        {
-            if (local_max > global_max)
-                global_max = local_max;
-            if (local_min < global_min)
-                global_min = local_min;
-        }
-    }
-
-    printf("Max: %d, Min: %d\n", global_max, global_min);
-}
-
 int compare_doubles(const void *a, const void *b)
 {
     double arg1 = *(const double *)a;
@@ -88,14 +39,51 @@ double median(double *times)
         return times[TESTS / 2];
 }
 
+void find_max_min(int *array, int size, int *global_max, int *global_min, int num_threads)
+{
+    int local_max, local_min;
+
+#pragma omp parallel private(local_max, local_min)
+    {
+        int tid = omp_get_thread_num();
+        int base_count = size / num_threads;
+        int extra_count = size % num_threads;
+        int start_index = tid * base_count + (tid < extra_count ? tid : extra_count);
+        int end_index = start_index + base_count + (tid < extra_count ? 1 : 0);
+
+        local_max = array[start_index];
+        local_min = array[start_index];
+
+        // Buscar el máximo y mínimo localmente
+        for (int i = start_index + 1; i < end_index; i++)
+        {
+            if (array[i] > local_max)
+                local_max = array[i];
+            if (array[i] < local_min)
+                local_min = array[i];
+        }
+
+        // Buscar el máximo y mínimo globalmente
+#pragma omp critical
+        {
+            if (local_max > *global_max)
+                *global_max = local_max;
+            if (local_min < *global_min)
+                *global_min = local_min;
+        }
+    }
+}
+
 void test()
 {
     int *array = (int *)malloc(N * sizeof(int));
     double *times = (double *)malloc(TESTS * sizeof(double));
+    int global_max, global_min;
     double start, end;
 
-    int num_threads = set_threads();
-
+    int num_threads;
+    printf("Ingrese la cantidad de hilos: ");
+    scanf("%d", &num_threads);
     omp_set_num_threads(num_threads);
 
     for (int i = 0; i < TESTS; i++)
@@ -104,14 +92,18 @@ void test()
         load(array, i);
 
         start = omp_get_wtime();
-        max_min(array, num_threads);
+        global_max = array[0];
+        global_min = array[0];
+
+        find_max_min(array, N, &global_max, &global_min, num_threads);
         end = omp_get_wtime();
 
         times[i] = end - start;
+        printf("Max: %d, Min: %d\n", global_max, global_min);
         printf("Time taken: %f seconds\n", times[i]);
     }
 
-    printf("Median time across threads: %f seconds\n", median(times));
+    printf("Median time: %f seconds\n", median(times));
 
     free(array);
     free(times);

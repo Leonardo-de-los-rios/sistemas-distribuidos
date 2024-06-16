@@ -1,38 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <omp.h>
 
 #define N 1000000
 #define TESTS 100
 
 void load(int *array, int iteration)
 {
-    // Calcular una semilla única basada en el tiempo actual y la iteración
     unsigned int seed = (unsigned int)time(NULL) + iteration;
     srand(seed);
 
-    // Llenar el arreglo con números aleatorios del 0 al 999
     for (int i = 0; i < N; i++)
     {
         array[i] = rand() % N;
     }
-}
-
-void max_min(int *array)
-{
-    int max = array[0];
-    int min = array[0];
-
-    for (int i = 1; i < N; i++)
-    {
-        if (array[i] > max)
-            max = array[i];
-        if (array[i] < min)
-            min = array[i];
-    }
-
-    printf("Max: %d, Min: %d\n", max, min);
 }
 
 int compare_doubles(const void *a, const void *b)
@@ -57,10 +38,25 @@ double median(double *times)
         return times[TESTS / 2];
 }
 
+void find_max_min(int *array, int size, int *global_max, int *global_min)
+{
+    *global_max = array[0];
+    *global_min = array[0];
+
+    for (int i = 1; i < size; i++)
+    {
+        if (array[i] > *global_max)
+            *global_max = array[i];
+        if (array[i] < *global_min)
+            *global_min = array[i];
+    }
+}
+
 void test()
 {
     int *array = (int *)malloc(N * sizeof(int));
     double *times = (double *)malloc(TESTS * sizeof(double));
+    int global_max, global_min;
     double start, end;
 
     for (int i = 0; i < TESTS; i++)
@@ -68,11 +64,12 @@ void test()
         printf("Iteration: %d\n", i);
         load(array, i);
 
-        start = omp_get_wtime();
-        max_min(array);
-        end = omp_get_wtime();
+        start = (double)clock() / CLOCKS_PER_SEC;
+        find_max_min(array, N, &global_max, &global_min);
+        end = (double)clock() / CLOCKS_PER_SEC;
 
         times[i] = end - start;
+        printf("Max: %d, Min: %d\n", global_max, global_min);
         printf("Time taken: %f seconds\n", times[i]);
     }
 
