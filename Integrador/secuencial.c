@@ -61,7 +61,7 @@ void test()
 
     for (int i = 0; i < TESTS; i++)
     {
-        printf("Iteration: %d\n", i);
+        printf("Test: %d\n", i + 1);
         load(array, i);
 
         start = (double)clock() / CLOCKS_PER_SEC;

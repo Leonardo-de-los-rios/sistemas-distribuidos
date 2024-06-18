@@ -56,9 +56,10 @@ void find_max_min(int *array, int size, int *local_max, int *local_min)
 void test(int rank, int size)
 {
     int *array = NULL;
-    int *sub_array = NULL;
     double *times = NULL;
     double start, end;
+    int local_max, local_min;
+    int global_max, global_min;
 
     if (rank == 0)
     {
@@ -69,15 +70,17 @@ void test(int rank, int size)
     int base_count = N / size;
     int extra_count = N % size;
     int sub_array_size = (rank < extra_count) ? base_count + 1 : base_count;
-    sub_array = (int *)malloc(sub_array_size * sizeof(int));
+    int *sub_array = (int *)malloc(sub_array_size * sizeof(int));
 
     for (int i = 0; i < TESTS; i++)
     {
         if (rank == 0)
         {
-            printf("Iteration: %d\n", i);
+            printf("Test: %d\n", i + 1);
             load(array, i);
         }
+
+        start = MPI_Wtime();
 
         int *send_counts = NULL;
         int *displs = NULL;
@@ -96,12 +99,8 @@ void test(int rank, int size)
 
         MPI_Scatterv(array, send_counts, displs, MPI_INT, sub_array, sub_array_size, MPI_INT, 0, MPI_COMM_WORLD);
 
-        start = MPI_Wtime();
-
-        int local_max, local_min;
         find_max_min(sub_array, sub_array_size, &local_max, &local_min);
 
-        int global_max, global_min;
         MPI_Reduce(&local_max, &global_max, 1, MPI_INT, MPI_MAX, 0, MPI_COMM_WORLD);
         MPI_Reduce(&local_min, &global_min, 1, MPI_INT, MPI_MIN, 0, MPI_COMM_WORLD);
 

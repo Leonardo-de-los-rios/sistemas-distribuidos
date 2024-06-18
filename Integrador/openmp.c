@@ -43,11 +43,15 @@ void find_max_min(int *array, int size, int *global_max, int *global_min, int nu
 {
     int local_max, local_min;
 
+    *global_max = array[0];
+    *global_min = array[0];
+
+    int base_count = size / num_threads;
+    int extra_count = size % num_threads;
+
 #pragma omp parallel private(local_max, local_min)
     {
         int tid = omp_get_thread_num();
-        int base_count = size / num_threads;
-        int extra_count = size % num_threads;
         int start_index = tid * base_count + (tid < extra_count ? tid : extra_count);
         int end_index = start_index + base_count + (tid < extra_count ? 1 : 0);
 
@@ -88,13 +92,10 @@ void test()
 
     for (int i = 0; i < TESTS; i++)
     {
-        printf("Iteration: %d\n", i);
+        printf("Test: %d\n", i + 1);
         load(array, i);
 
         start = omp_get_wtime();
-        global_max = array[0];
-        global_min = array[0];
-
         find_max_min(array, N, &global_max, &global_min, num_threads);
         end = omp_get_wtime();
 
