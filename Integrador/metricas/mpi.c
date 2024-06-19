@@ -53,10 +53,9 @@ void find_max_min(int *array, int size, int *local_max, int *local_min)
     }
 }
 
-void test(int rank, int size)
+void test(int rank, int size, double *times)
 {
     int *array = NULL;
-    double *times = NULL;
     double start, end;
     int local_max, local_min;
     int global_max, global_min;
@@ -64,7 +63,6 @@ void test(int rank, int size)
     if (rank == 0)
     {
         array = (int *)malloc(N * sizeof(int));
-        times = (double *)malloc(TESTS * sizeof(double));
     }
 
     int base_count = N / size;
@@ -121,7 +119,6 @@ void test(int rank, int size)
     {
         printf("Median time across processes: %f seconds\n", median(times));
         free(array);
-        free(times);
     }
 
     free(sub_array);
@@ -129,14 +126,43 @@ void test(int rank, int size)
 
 int main(int argc, char *argv[])
 {
-    MPI_Init(&argc, &argv);
-
+    double start, end, *times = NULL;
     int rank, size;
+
+    MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    test(rank, size);
+    if (rank == 0)
+    {
+        times = (double *)malloc(TESTS * sizeof(double));
+        start = (double)clock() / CLOCKS_PER_SEC;
+    }
 
+    test(rank, size, times);
     MPI_Finalize();
+
+    if (rank == 0)
+    {
+        end = (double)clock() / CLOCKS_PER_SEC;
+
+        double total_time = end - start;
+
+        double time_parallel = 0.0;
+
+        for (int i = 0; i < TESTS; i++)
+        {
+            time_parallel += times[i];
+        }
+
+        double time_secuencial = total_time - time_parallel;
+
+        printf("------------------------------\n");
+        printf("Cantidad de procesos: %d\n", size);
+        printf("Total time: %f seconds\n", total_time);
+        printf("Time secuencial: %f seconds\n", time_secuencial);
+        printf("Time parallel: %f seconds\n", time_parallel);
+    }
+
     return 0;
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <omp.h>
 
 #define N 1000000
 #define TESTS 100
@@ -38,17 +39,42 @@ double median(double *times)
         return times[TESTS / 2];
 }
 
-void find_max_min(int *array, int size, int *global_max, int *global_min)
+void find_max_min(int *array, int size, int *global_max, int *global_min, int num_threads)
 {
+    int local_max, local_min;
+
     *global_max = array[0];
     *global_min = array[0];
 
-    for (int i = 1; i < size; i++)
+    int base_count = size / num_threads;
+    int extra_count = size % num_threads;
+
+#pragma omp parallel private(local_max, local_min)
     {
-        if (array[i] > *global_max)
-            *global_max = array[i];
-        if (array[i] < *global_min)
-            *global_min = array[i];
+        int tid = omp_get_thread_num();
+        int start_index = tid * base_count + (tid < extra_count ? tid : extra_count);
+        int end_index = start_index + base_count + (tid < extra_count ? 1 : 0);
+
+        local_max = array[start_index];
+        local_min = array[start_index];
+
+        // Buscar el máximo y mínimo localmente
+        for (int i = start_index + 1; i < end_index; i++)
+        {
+            if (array[i] > local_max)
+                local_max = array[i];
+            if (array[i] < local_min)
+                local_min = array[i];
+        }
+
+        // Buscar el máximo y mínimo globalmente
+#pragma omp critical
+        {
+            if (local_max > *global_max)
+                *global_max = local_max;
+            if (local_min < *global_min)
+                *global_min = local_min;
+        }
     }
 }
 
@@ -59,14 +85,19 @@ void test()
     int global_max, global_min;
     double start, end;
 
+    int num_threads;
+    printf("Ingrese la cantidad de hilos: ");
+    scanf("%d", &num_threads);
+    omp_set_num_threads(num_threads);
+
     for (int i = 0; i < TESTS; i++)
     {
         printf("Test: %d\n", i + 1);
         load(array, i);
 
-        start = (double)clock() / CLOCKS_PER_SEC;
-        find_max_min(array, N, &global_max, &global_min);
-        end = (double)clock() / CLOCKS_PER_SEC;
+        start = omp_get_wtime();
+        find_max_min(array, N, &global_max, &global_min, num_threads);
+        end = omp_get_wtime();
 
         times[i] = end - start;
         printf("Max: %d, Min: %d\n", global_max, global_min);
