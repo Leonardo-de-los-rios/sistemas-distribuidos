@@ -59,7 +59,7 @@ void test(int rank, int size, double *time_secuencial)
         *time_secuencial += (end_sec - start_sec);
     }
 
-// TODO: analizar si tiene que hacerlo el rank 0
+    // TODO: analizar si tiene que hacerlo el rank 0
     start_test = MPI_Wtime();
 
     int *send_counts = NULL;

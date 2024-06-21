@@ -15,7 +15,6 @@ void load(int *array)
     }
 }
 
-
 double find_max_min(int *array, int size, int *global_max, int *global_min, int num_threads)
 {
     int local_max, local_min;
