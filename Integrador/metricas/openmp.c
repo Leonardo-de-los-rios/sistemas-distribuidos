@@ -3,14 +3,11 @@
 #include <time.h>
 #include <omp.h>
 
-#define N 1000000
-#define TESTS 100
-// #define TESTS_PARALLEL 100
+#define N 100000000
 
-void load(int *array, int iteration)
+void load(int *array)
 {
-    unsigned int seed = (unsigned int)time(NULL) + iteration;
-    srand(seed);
+    srand(time(NULL));
 
     for (int i = 0; i < N; i++)
     {
@@ -18,31 +15,11 @@ void load(int *array, int iteration)
     }
 }
 
-int compare_doubles(const void *a, const void *b)
-{
-    double arg1 = *(const double *)a;
-    double arg2 = *(const double *)b;
 
-    if (arg1 < arg2)
-        return -1;
-    if (arg1 > arg2)
-        return 1;
-    return 0;
-}
-
-double median(double *times)
-{
-    qsort(times, TESTS, sizeof(double), compare_doubles);
-
-    if (TESTS % 2 == 0)
-        return (times[TESTS / 2 - 1] + times[TESTS / 2]) / 2;
-    else
-        return times[TESTS / 2];
-}
-
-void find_max_min(int *array, int size, int *global_max, int *global_min, int num_threads)
+double find_max_min(int *array, int size, int *global_max, int *global_min, int num_threads)
 {
     int local_max, local_min;
+    double start, end;
 
     *global_max = array[0];
     *global_min = array[0];
@@ -50,6 +27,7 @@ void find_max_min(int *array, int size, int *global_max, int *global_min, int nu
     int base_count = size / num_threads;
     int extra_count = size % num_threads;
 
+    start = omp_get_wtime();
 #pragma omp parallel private(local_max, local_min)
     {
         int tid = omp_get_thread_num();
@@ -77,55 +55,39 @@ void find_max_min(int *array, int size, int *global_max, int *global_min, int nu
                 *global_min = local_min;
         }
     }
+    end = omp_get_wtime();
+
+    return end - start;
 }
 
-void test(int num_threads, double *times)
+double test(int num_threads)
 {
     int *array = (int *)malloc(N * sizeof(int));
     int global_max, global_min;
-    double start, end;
 
-    omp_set_num_threads(num_threads);
+    load(array);
 
-    for (int i = 0; i < TESTS; i++)
-    {
-        printf("Test: %d\n", i + 1);
-        load(array, i);
+    double time_parallel = find_max_min(array, N, &global_max, &global_min, num_threads);
 
-        start = omp_get_wtime();
-        find_max_min(array, N, &global_max, &global_min, num_threads);
-        end = omp_get_wtime();
-
-        times[i] = end - start;
-        printf("Max: %d, Min: %d\n", global_max, global_min);
-        printf("Time taken: %f seconds\n", times[i]);
-    }
-
-    double median_time = median(times);
-
-    printf("Median time: %f seconds\n", median_time);
+    printf("Max: %d, Min: %d\n", global_max, global_min);
+    printf("Time taken: %f seconds\n", time_parallel);
 
     free(array);
+
+    return time_parallel;
 }
 
 int main()
 {
-    int num_threads = 12;
-
-    double *times = (double *)malloc(TESTS * sizeof(double));
-
     double start = omp_get_wtime();
-    test(num_threads, times);
+    int num_threads = 6;
+
+    omp_set_num_threads(num_threads);
+
+    double time_parallel = test(num_threads);
     double end = omp_get_wtime();
 
     double total_time = end - start;
-
-    double time_parallel = 0.0;
-
-    for (int i = 0; i < TESTS; i++)
-    {
-        time_parallel += times[i];
-    }
 
     double time_secuencial = total_time - time_parallel;
 
