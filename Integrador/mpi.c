@@ -32,7 +32,7 @@ void find_max_min(int *array, int size, int *local_max, int *local_min)
 void test(int rank, int size, double *time_secuencial)
 {
     int *array = NULL;
-    double start_test, end_test, start_sec, end_sec;
+    double start_test, end_test, start_sec, end_sec, start, end;
     int local_max, local_min;
     int global_max, global_min;
 

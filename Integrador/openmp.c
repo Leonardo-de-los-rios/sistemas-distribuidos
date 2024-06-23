@@ -63,13 +63,16 @@ double test(int num_threads)
 {
     int *array = (int *)malloc(N * sizeof(int));
     int global_max, global_min;
+    double start, end;
 
     load(array);
 
+    start = omp_get_wtime();
     double time_parallel = find_max_min(array, N, &global_max, &global_min, num_threads);
+    end = omp_get_wtime();
 
     printf("Max: %d, Min: %d\n", global_max, global_min);
-    printf("Time taken: %f seconds\n", time_parallel);
+    printf("Time taken: %f seconds\n", end - start);
 
     free(array);
 
