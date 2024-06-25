@@ -38,10 +38,10 @@ void test(int rank, int size, double *time_secuencial)
 
     if (rank == 0)
     {
-        start_sec = MPI_Wtime();
+        start_sec = (double)clock() / CLOCKS_PER_SEC;
 
         array = (int *)malloc(N * sizeof(int));
-        end_sec = MPI_Wtime();
+        end_sec = (double)clock() / CLOCKS_PER_SEC;
 
         *time_secuencial = end_sec - start_sec;
     }
@@ -53,20 +53,20 @@ void test(int rank, int size, double *time_secuencial)
 
     if (rank == 0)
     {
-        start_sec = MPI_Wtime();
+        start_sec = (double)clock() / CLOCKS_PER_SEC;
         load(array);
-        end_sec = MPI_Wtime();
+        end_sec = (double)clock() / CLOCKS_PER_SEC;
         *time_secuencial += (end_sec - start_sec);
     }
 
     // TODO: analizar si tiene que hacerlo el rank 0
-    start_test = MPI_Wtime();
+    start_test = (double)clock() / CLOCKS_PER_SEC;
 
     int *send_counts = NULL;
     int *displs = NULL;
     if (rank == 0)
     {
-        start_sec = MPI_Wtime();
+        start_sec = (double)clock() / CLOCKS_PER_SEC;
         send_counts = (int *)malloc(size * sizeof(int));
         displs = (int *)malloc(size * sizeof(int));
         int offset = 0;
@@ -76,7 +76,7 @@ void test(int rank, int size, double *time_secuencial)
             displs[j] = offset;
             offset += send_counts[j];
         }
-        end_sec = MPI_Wtime();
+        end_sec = (double)clock() / CLOCKS_PER_SEC;
 
         *time_secuencial += (end_sec - start_sec);
     }
@@ -88,11 +88,11 @@ void test(int rank, int size, double *time_secuencial)
     MPI_Reduce(&local_max, &global_max, 1, MPI_INT, MPI_MAX, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_min, &global_min, 1, MPI_INT, MPI_MIN, 0, MPI_COMM_WORLD);
 
-    end_test = MPI_Wtime();
+    end_test = (double)clock() / CLOCKS_PER_SEC;
 
     if (rank == 0)
     {
-        start_sec = MPI_Wtime();
+        start_sec = (double)clock() / CLOCKS_PER_SEC;
         double time_parallel = end_test - start_test;
         printf("Max: %d, Min: %d\n", global_max, global_min);
         printf("Time taken: %f seconds\n", time_parallel);
@@ -100,7 +100,7 @@ void test(int rank, int size, double *time_secuencial)
         free(array);
         free(send_counts);
         free(displs);
-        end_sec = MPI_Wtime();
+        end_sec = (double)clock() / CLOCKS_PER_SEC;
 
         *time_secuencial += (end_sec - start_sec);
     }
