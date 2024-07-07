@@ -162,7 +162,7 @@
 
 #### Práctico para analizar el código del programa para desenfocar una imagen en paralelo con OpenMp.
 
-#### [Desenfocar imagen en paralelo](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/tree/main/Unidad%204/Parte%202)
+- #### [Desenfocar imagen en paralelo](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/tree/main/Unidad%204/Parte%202)
 
 #### Link del pdf resuelto:
 
@@ -245,6 +245,32 @@
 #### Link del pdf resuelto:
 
 [![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/1Ys4mNqcnWVD-mHvrJIvZd1ntitagR0QC/view?usp=sharing)
+
+# Unidad 9
+
+## Parte 2: Relojes Físicos
+
+- #### [GPS](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Unidad%209/Parte%202/gps.py)
+
+- #### [GPS UTC](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Unidad%209/Parte%202/gps_utc.py)
+
+#### Link del pdf resuelto:
+
+[![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/1_e_MMVLigyh_rEZybk-NgpHnccF5eLrt/view?usp=drive_link)
+
+# Integrador
+
+## Buscar máximo y mínimo en un arreglo de forma secuencial y paralela.
+
+- #### [Secuencial](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Integrador/secuencial.c)
+
+- #### [OpenMP](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Integrador/openmp.c)
+
+- #### [MPI](https://github.com/Leonardo-de-los-rios/sistemas-distribuidos/blob/main/Integrador/mpi.c)
+
+#### Link del pdf resuelto:
+
+[![Download as PDF Button](https://camo.githubusercontent.com/4b7e2df20c344127c85b210653959ea7cd2ddb1c1862f27c715cd460703e76d3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f776e6c6f616425323061732532305044462d4546333933393f7374796c653d666c6174266c6f676f3d61646f62656163726f626174726561646572266c6f676f436f6c6f723d776869746526636f6c6f723d626c61636b266c6162656c436f6c6f723d656331633234)](https://drive.google.com/file/d/1LAoAs1P9FZa4Fj719umeR3_xr7SgI18G/view?usp=drive_link)
 
 # Bonustrack
 
